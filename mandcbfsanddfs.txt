@@ -1,0 +1,115 @@
+M = int(input("Enter no.of Missionaries : "))
+C = int(input("Enter no.of Cannibals : "))
+
+
+root = [[M, C, 1], [0, 0, 0]]
+goal = [[0, 0, 0], [M, C, 1]]
+
+def Missionaries_and_Cannibals_BFS(r, g, m, c):
+    open = []
+    closed = []
+    open.append(r)
+    graph = {}
+    while g not in open:
+        x = open.pop(0)
+        m1, c1, m2, c2 = x[0][0], x[0][1], x[1][0], x[1][1]
+        pos = []
+        if x[0][2]==1: # boat is on left side
+            if m1>=2 and (m1-2>=c1 or m1-2==0) and m2+2>=c2:
+                pos.append([[m1-2, c1, 0], [m2+2, c2, 1]])
+            if m1>=1 and c1>=1 and m1-1>=c1-1 and m2+1>=c2+1:
+                pos.append([[m1-1, c1-1, 0], [m2+1, c2+1, 1]])
+            if c1>=2 and (m2>=c2+2 or m2==0):
+                pos.append([[m1, c1-2, 0], [m2, c2+2, 1]])
+            if m1>=1 and (m1-1>=c1 or m1-1==0) and m2+1>=c2:
+                pos.append([[m1-1, c1, 0], [m2+1, c2, 1]])
+            if c1>=1 and (m2>=c2+1 or m2==0):
+                pos.append([[m1, c1-1, 0], [m2, c2+1, 1]])
+
+
+        elif x[1][2] == 1: # boat is on right side
+            if m2>=2 and m1+2 >= c1 and (m2-2 >= c2 or m2-2==0):
+                pos.append([[m1+2, c1, 1], [m2-2, c2, 0]])
+            if m2>=1 and c2>=1 and m1+1 >= c1+1 and m2-1 >= c2-1:
+                pos.append([[m1+1, c1+1, 1], [m2-1, c2-1, 0]])
+            if c2>=2 and ((m1 >= c1+2 and m2>=c2-2) or m1==0):
+                pos.append([[m1, c1+2, 1], [m2, c2-2, 0]])
+            if m2>=1 and m1+1 >= c1 and (m2-1 >= c2 or m2-1==0):
+                pos.append([[m1+1, c1, 1], [m2-1, c2, 0]])
+            if c2>=1 and (m1 >= c1+1 or m1==0):
+                pos.append([[m1, c1+1, 1], [m2, c2-1, 0]])
+        closed.append(x)
+        for i in closed+open:
+            if i in pos:
+                pos.remove(i)
+        graph[str(x)] = pos
+        open.extend(pos)
+        print(open)
+    return graph
+
+graph = Missionaries_and_Cannibals_BFS(root, goal, M, C)
+
+
+def path(root, goal, g):
+    x = str(goal)
+    p = [x]
+    while(x!=str(root)):
+        for i in g.keys():
+            l = [str(j) for j in g[i]]
+            if x in l:
+                p.insert(0, i)
+                break
+        x = p[0]
+    return p
+
+path(root, goal, graph)
+
+
+
+
+
+
+
+
+def Missionaries_and_Cannibals_DFS(r, g, m, c):
+    open = []
+    closed = []
+    open.append(r)
+    while g not in open:
+        x = open.pop(0)
+        m1, c1, m2, c2 = x[0][0], x[0][1], x[1][0], x[1][1]
+        pos = []
+        if x[0][2]==1: # boat is on left side
+            if m1>=2 and (m1-2>=c1 or m1-2==0) and m2+2>=c2:
+                pos.append([[m1-2, c1, 0], [m2+2, c2, 1]])
+            if m1>=1 and c1>=1 and m1-1>=c1-1 and m2+1>=c2+1:
+                pos.append([[m1-1, c1-1, 0], [m2+1, c2+1, 1]])
+            if c1>=2 and (m2>=c2+2 or m2==0):
+                pos.append([[m1, c1-2, 0], [m2, c2+2, 1]])
+            if m1>=1 and (m1-1>=c1 or m1-1==0) and m2+1>=c2:
+                pos.append([[m1-1, c1, 0], [m2+1, c2, 1]])
+            if c1>=1 and (m2>=c2+1 or m2==0):
+                pos.append([[m1, c1-1, 0], [m2, c2+1, 1]])
+
+
+        elif x[1][2] == 1: # boat is on right side
+            if m2>=2 and m1+2 >= c1 and (m2-2 >= c2 or m2-2==0):
+                pos.append([[m1+2, c1, 1], [m2-2, c2, 0]])
+            if m2>=1 and c2>=1 and m1+1 >= c1+1 and m2-1 >= c2-1:
+                pos.append([[m1+1, c1+1, 1], [m2-1, c2-1, 0]])
+            if c2>=2 and ((m1 >= c1+2 and m2>=c2-2) or m1==0):
+                pos.append([[m1, c1+2, 1], [m2, c2-2, 0]])
+            if m2>=1 and m1+1 >= c1 and (m2-1 >= c2 or m2-1==0):
+                pos.append([[m1+1, c1, 1], [m2-1, c2, 0]])
+            if c2>=1 and (m1 >= c1+1 or m1==0):
+                pos.append([[m1, c1+1, 1], [m2, c2-1, 0]])
+        closed.append(x)
+        for i in closed+open:
+            if i in pos:
+                pos.remove(i)
+        open.extend(pos[::-1])
+        print(open)
+
+graph = Missionaries_and_Cannibals_DFS(root, goal, M, C)
+     
+

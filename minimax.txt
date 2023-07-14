@@ -1,0 +1,25 @@
+leafs=list(map(int,input('enter leaf nodes:').split()))
+mode=int(input('enter 1 if max else 0:'))
+
+
+def min_max(leafs,mode):
+    while (len(leafs)>1):
+        new=[]
+        while (len(leafs)>1):
+            x=leafs.pop(0)
+            y=leafs.pop(0)
+            if mode==0:
+                new.append(min(x,y))
+            if mode==1:
+                new.append(max(x,y))
+        if len(leafs)==1:
+            new.append(leafs.pop())
+        if mode==0:
+            mode=1
+        elif mode==1:
+            mode=0
+        leafs=new
+    return new[0]
+
+value=min_max(leafs,mode)
+print('value of game is:',value)

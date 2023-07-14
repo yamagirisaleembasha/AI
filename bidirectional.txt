@@ -1,0 +1,48 @@
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F', 'G'],
+    'D': ['B'],
+    'E': ['B'],
+    'F': ['C'],
+    'G': ['C']
+}
+
+def get_neighbors(node):
+    return graph.get(node, [])
+
+def bidirectional_search(start, goal):
+    forward_queue = [start]
+    backward_queue = [goal]
+    forward_visited = {start}
+    backward_visited = {goal}
+
+    while forward_queue and backward_queue:
+       
+        current_forward = forward_queue.pop(0)
+        for neighbor in get_neighbors(current_forward):
+            if neighbor not in forward_visited:
+                forward_visited.add(neighbor)
+                forward_queue.append(neighbor)
+            if neighbor in backward_visited:
+                return True
+
+        
+        current_backward = backward_queue.pop(0)
+        for neighbor in get_neighbors(current_backward):
+            if neighbor not in backward_visited:
+                backward_visited.add(neighbor)
+                backward_queue.append(neighbor)
+            if neighbor in forward_visited:
+                return True
+
+    return False
+
+
+start_node = 'A'
+goal_node = 'G'
+found = bidirectional_search(start_node, goal_node)
+if found:
+    print("Goal node found!")
+else:
+    print("Goal node not found.")

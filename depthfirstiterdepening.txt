@@ -1,0 +1,28 @@
+def depth_limited_search(node, goal, depth_limit):
+    if node == goal:
+        return True
+
+    if depth_limit == 0:
+        return False
+
+    for child in get_children(node):
+        if depth_limited_search(child, goal, depth_limit - 1):
+            return True
+
+    return False
+
+def iterative_deepening_search(start, goal):
+    depth_limit = 0
+    while True:
+        if depth_limited_search(start, goal, depth_limit):
+            return True
+        depth_limit += 1
+
+# Example usage:
+start_node = ...
+goal_node = ...
+found = iterative_deepening_search(start_node, goal_node)
+if found:
+    print("Goal node found!")
+else:
+    print("Goal node not found.")

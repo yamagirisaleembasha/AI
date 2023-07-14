@@ -1,0 +1,61 @@
+pos = input("Enter position of the Vacuum machine, either 'A' or 'B' : ")
+
+root = [[1, 0], [1, 0]]
+if pos=='A':
+    root[0][-1]=1
+else:
+    root[-1][-1]=1
+
+goal = [[[0, 1], [0, 0]], [[0, 0], [0, 1]]]
+
+print(root, goal)
+
+import copy
+def Operation(c):
+    cond = copy.deepcopy(c)
+    location = 0 if cond[0][-1]==1 else 1
+    pos = []
+    if cond[location][0]==1:
+        cond[location][0]=0
+        pos.append(cond)
+    cond = copy.deepcopy(c)
+
+    cond[location][-1]=0
+    location = 1 if location==0 else 0
+    cond[location][-1]=1
+    pos.append(cond)
+
+    return pos
+
+def Vacuum_World_BFS(r, g):
+    open = [r]
+    closed = []
+    graph = {}
+    while (g[0] not in open):
+        print(open)
+        x = open.pop(0)
+        closed.append(x)
+        pos = Operation(x)
+        graph[str(x)]=pos
+        for i in pos:
+            if i not in open+closed:
+                open.append(i)
+    return graph
+graph = Vacuum_World_BFS(root, goal)
+
+def Vacuum_World_DFS(r, g):
+    open = [r]
+    closed = []
+    graph = {}
+    while (g[0] not in open):
+        print(open)
+        x = open.pop(0)
+        closed.append(x)
+        pos = Operation(x)
+        graph[str(x)]=pos
+        for i in pos[::-1]:
+            if i not in open+closed:
+                open.append(i)
+    return graph
+
+graph = Vacuum_World_DFS(root, goal)

@@ -1,0 +1,18 @@
+def dfs(graph, start):
+    queue=[start]
+    visited=set()
+    while queue:
+        node=queue.pop()
+        visited.add(node)
+        print(visited)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+                
+graph = {
+    'A': ['B', 'C'],
+    'B': ['C', 'D'],
+    'C': ['D'],
+    'D': [],
+}
+dfs(graph, 'A')

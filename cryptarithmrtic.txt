@@ -1,0 +1,36 @@
+import itertools
+w1=input().lower()
+w2=input()
+w3=input()
+
+l=list(set(w1)|set(w2)|set(w3))
+
+def val(w,d):
+  c=0
+  n=len(w)
+  for i in range(n):
+    c=c+10**(n-1)*d[w[i]]
+    n=n-1
+  return c
+
+digits=range(10)
+for j in itertools.permutations(digits,len(l)):
+  d=dict(zip(l,j))
+  if d[w1[0]]!=0 and d[w2[0]]!=0:
+    k1=val(w1,d)
+    k2=val(w2,d)
+    k3=val(w3,d)
+    if k1+k2==k3:
+      print(w1,k1)
+      print(w2,k2)
+      print(w3,k3)
+
+
+output
+
+send
+more
+money
+send 9567
+more 1085
+money 10652
